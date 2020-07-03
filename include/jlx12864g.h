@@ -1,32 +1,32 @@
 
-#ifndef __OLED096_H__
-#define __OLED096_H__
+#ifndef __JLX12864G_H__
+#define __JLX12864G_H__
 
 #include <reg52.h>
+
 #include <stdio.h>
 #include <stdarg.h>
 
-#include "fontlib.h"
 #include "time.h"
+#include "fontlib.h"
 
 #define white 0
 #define black 1
 
-sbit d0 = P2^0;  //sclk
-sbit d1 = P2^1;  //mosi
-sbit rs = P2^2;
-sbit dc = P2^3;
-sbit cs = P2^4;
+extern unsigned char jvm[];
 
-// oled 0.96 display video memory
-extern unsigned char oled_vm[];
+sbit rs = P0^0;
+sbit cs = P0^1;
+sbit rst = P0^2;
+sbit sda = P0^3;
+sbit scl = P0^4;
 
-extern void oled096_send_bit(bit a_bit);
-extern void oled096_send_byte(unsigned char a_byte);
+extern void jlx12864_send_bit(unsigned char a_bit);
+extern void jlx12864_send_byte(unsigned char a_byte);
 extern void write_command(unsigned char command);
 extern void write_data(unsigned char dat_a);
 extern void clean(unsigned char dat_a);
-extern void oled096_init();
+extern void jlx12864g_init();
 extern void display_on();
 extern void display_off();
 extern void display_pixel(unsigned char y, unsigned char x, unsigned char color, unsigned char vm[]);

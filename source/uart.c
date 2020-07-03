@@ -14,6 +14,7 @@ unsigned char uart_recv[16] = {0};
 
  */
 
+// bd = 2 -> 9600
 void uart_init(unsigned char bd)
 {
 	TMOD = 0x20;
@@ -79,7 +80,7 @@ void uart_receive_data()
 {
 	static unsigned char uart_bits = 0;
 
-	uart_receive[uart_bits] = uart_receive_byte();
+	uart_recv[uart_bits] = uart_receive_byte();
 	uart_bits++;
 }
 
