@@ -40,7 +40,7 @@ unsigned char master_receive_byte()
 		sleep_us(1);
 		sclk = 0;
 		dat_a = dat_a << 1;
-		dat_a =  dat_a | (miso & 0x80);
+		dat_a = dat_a | (miso & 0x80);
 		sleep_us(1);
 	}
 	return dat_a;

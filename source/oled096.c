@@ -1,10 +1,6 @@
 
 #include "oled096.h"
 
-// oled 0.96 display video memory
-// oled_vm[128 * 8] is 128 * 8(page)
-unsigned char oled_vm[1024];
-
 void oled096_send_bit(bit a_bit)
 {
     if (a_bit)
@@ -99,33 +95,6 @@ void display_off()
     write_command(0xae);
 }
 
-void display_pixel(unsigned char y, unsigned char x, unsigned char color, unsigned char vm[])
-{
-    unsigned char page;
-    unsigned char bit;
-
-    page = y / 8;
-    bit = y % 8;
-
-    vm[page * 128 + x] |= ((color & 0x01) << bit);
-}
-
-void send_display_memory(unsigned char vm[])
-{
-    unsigned int x, page;
-    unsigned int v = 0;
-
-    for (page = 0; page < 8; page++) {
-        write_command(0xb0 + page);
-        write_command(0x02);
-        write_command(0x10);
-        for (x = 0; x < 128; x++) {
-            write_data(vm[v]);
-            v++;
-        }
-    }   
-}
-
 void display_position(unsigned char y, unsigned char x)
 {
     unsigned char page;
@@ -186,28 +155,4 @@ void display_value(unsigned char y, unsigned char x, unsigned char *format, ...)
     va_end(parameter_pointer);
 
     display_string(y, x, value);
-}
-
-void display_bevel_rectangle(unsigned char y, unsigned char x, unsigned char width, unsigned char height, unsigned char radian, unsigned char vm[])
-{
-    unsigned char i, j;
-
-    for (i = radian; i > 0; i--) {
-        for (j = 0; j < (width - i * 2); j++) {
-            display_pixel(y, x + i + j, black, vm);
-        }
-        y++;
-    }
-    for (i = 0; i < (height - radian * 2); i++) {
-        for (j = 0; j < width; j++) {
-            display_pixel(y, x + j, black, vm);
-        }
-        y++;
-    }
-    for (i = 0; i < radian + 1; i++) {
-        for (j = 0; j < (width - i * 2); j++) {
-            display_pixel(y, x + i + j, black, vm);
-        }
-        y++;
-    }
 }
